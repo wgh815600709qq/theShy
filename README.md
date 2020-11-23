@@ -37,4 +37,8 @@
 
 |- tools               - 效能功能
 
-|- config              - 抽象类型定义
+|- config              - 系统级别的配置定义
+
+|- style               - 样式
+    |- theme           - 主题
+    |- 

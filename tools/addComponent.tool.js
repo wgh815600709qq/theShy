@@ -35,13 +35,13 @@ inquirer.prompt({
         fs.writeFileSync(path.resolve(packagePath, './index.md'),`# ${componentName}组件说明文档`);
         fs.writeFileSync(path.resolve(packagePath, './index.tsx'), `// 暴露组件以及相关属性`);
         fs.mkdirSync(path.resolve(packagePath, './demo'));
-        fs.writeFileSync(path.resolve(packagePath, './demo/basic.md'), '// 按组件的各个功能划分写demo文件');
+        fs.writeFileSync(path.resolve(packagePath, './demo/basic.md'), '# 按组件的各个功能划分写demo文件');
         fs.mkdirSync(path.resolve(packagePath, './__tests__'));
         fs.writeFileSync(path.resolve(packagePath, './__tests__/index.test.tsx'), '// 单元测试入口');
         fs.mkdirSync(path.resolve(packagePath, './style'));
-        fs.writeFileSync(path.resolve(packagePath, './style/index.less', '// 主要样式定义'));
-        fs.writeFileSync(path.resolve(packagePath, './style/index.tsx', '// 暴露样式文件'));
-        fs.writeFileSync(path.resolve(packagePath, './style/mixin.less', '// 所有组件定义less的mixin统一在mixin.less文件'));
+        fs.writeFileSync(path.resolve(packagePath, './style/index.less'),'// 主要样式定义');
+        fs.writeFileSync(path.resolve(packagePath, './style/index.tsx'), '// 暴露样式文件');
+        fs.writeFileSync(path.resolve(packagePath, './style/mixin.less'), '// 所有组件定义less的mixin统一在mixin.less文件');
         console.log(`组件[${componentName}] created finish`);
     }   
 })
