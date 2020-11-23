@@ -1,0 +1,10 @@
+@theme-color: #5582f3; // 主题色
+// 使用hsb/hsv 计算色值
+@hsv-h: hsvhue(@theme-color); // 色相
+@hsv-s: hsvsaturation(@theme-color); // 饱和度
+@hsv-v: hsvvalue(@theme-color); // 明度
+@theme-color-disabled: hsv(@hsv-h, max(5%, (@hsv-s - 54%)), min((@hsv-v + 24%), 100%)); // 禁用色
+@theme-color-hover: hsv(@hsv-h, max(5%, (@hsv-s - 18%)), min((@hsv-v + 8%), 100%)); // 悬浮色
+@theme-color-click: hsv(@hsv-h, min((@hsv-s + 8%), 100%), max(5%, (@hsv-v - 16%))); // 点击色
+@theme-color-active-light: hsv(@hsv-h, max(5%, (@hsv-s - 90%)), min((@hsv-v + 40%), 100%)); // 浅色选中
+@theme-color-active-dark: @theme-color; // 深色选中
