@@ -1,0 +1,30 @@
+{
+  "name": "theshy",
+  "version": "1.0.0",
+  "description": "a typescript ui-components practise",
+  "main": "index.js",
+  "scripts": {
+    "new": "node tools/addComponent.tool.js",
+    "rm": "node tools/removeComponent.tool.js",
+    "test": "npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wgh815600709qq/theShy.git"
+  },
+  "keywords": [
+    "typescript",
+    "ui-component"
+  ],
+  "author": "Johnson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wgh815600709qq/theShy/issues"
+  },
+  "homepage": "https://github.com/wgh815600709qq/theShy#readme",
+  "dependencies": {
+    "classnames": "^2.2.6",
+    "inquirer": "^7.3.3",
+    "react": "^17.0.1"
+  }
+}
