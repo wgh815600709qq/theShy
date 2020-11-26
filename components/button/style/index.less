@@ -1,5 +1,6 @@
 // 主要样式定义
 @import '../../../style/index.less';
+@import './mixin.less';
 @btn-prefix: ~'@{ts-prefix}-btn';
 .@{btn-prefix} {
     .btn;
@@ -105,7 +106,7 @@
     }
 
     &-shape-ellipse{
-
+      border-radius: @btn-small-height;
     }
 
     &-shape-circular{
@@ -115,5 +116,8 @@
 
     &-disabled{
 
+    }
+    &-loading{
+      cursor: default;
     }
 }

@@ -22,7 +22,9 @@
 # 工程命令
 ```
     npm run new                           - 按模板生成一个新的组件
-
+    npm run rm                            - 删除一个组件模块
+    npm run compile                       - 编译组件
+    
 ```
 
 
