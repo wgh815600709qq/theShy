@@ -12,7 +12,7 @@ const esDir = path.join(__dirname, './es');
 
 function compileLess(isModule) {
     gulp
-        .src('components/style/index.less')
+        .src(['components/**/*.less'])
         .pipe(less())
         .pipe(cssmin())
         .pipe(gulp.dest((isModule ? libDir : esDir) + '/css'))
@@ -20,12 +20,15 @@ function compileLess(isModule) {
 }
 
 
-function compileTs() {
+function compileTs(isModule) {
+    let error = 0;
     const source = [
-        '*.tsx',
-        '*.ts'
+        'components/**/*.tsx',
+        'components/**/*.ts',
+        'config/**/*.ts',
+        'utils/*.ts'
     ]
-    gulp
+    const tsResult = gulp
         .src(source)
         .pipe(ts(tsConfig.compilerOptions, {
             error(e) {
@@ -34,10 +37,22 @@ function compileTs() {
             },
             finish: tsDefaultReporter.finish,
         }))
+        
+    function check() {
+        // eslint-disable-next-line no-undef
+        if (error && !argv['ignore-error']) {
+            process.exit(1)
+        }
+     }
+    
+    tsResult.on('finish', check)
+    tsResult.on('end', check)
+    return tsResult.js.pipe(gulp.dest(isModule ? libDir : esDir))
 }
 
 gulp.task('compile-clean', (done) => {
-    rimraf.sync(isModule ? libDir : esDir);    
+    rimraf.sync(libDir);
+    rimraf.sync(esDir);
     done()
 })
 
@@ -52,4 +67,8 @@ gulp.task('compile-typescript', (done) => {
     done();
 })
 
+gulp.task('dynamic-into', (done) => {
+    // 动态添加
+    done();
+})
 gulp.task('compile', gulp.series(['compile-clean', 'compile-less', 'compile-typescript']));
