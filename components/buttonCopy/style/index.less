@@ -1,0 +1,123 @@
+// 主要样式定义
+@import '../../../style/index.less';
+@import './mixin.less';
+@btn-prefix: ~'@{ts-prefix}-btn';
+.@{btn-prefix} {
+    .btn;
+    &-type-main{
+      .btn-type(@btn-main-border-color, @btn-main-background-color, @btn-main-font-color);
+      &:hover {
+        background-color: @theme-color-hover;
+        border-color: @theme-color-hover !important;
+      }
+      &:active {
+        background-color: @theme-color-click;
+      }
+      &:disabled {
+        background-color: @theme-color-disabled !important;
+        border-color: @theme-color-disabled !important;
+      }
+    }
+
+    &-type-secondary{
+      .btn-type(@btn-second-border-color, @btn-second-background-color, @btn-second-font-color);
+      &:hover,&:active {
+        background-color: @white;
+        border-color: @strong-border-color;
+        color: @secondary-text-color
+      }
+      &:disabled {
+        border-color: @btn-second-border-color !important;
+        background-color: @btn-second-background-color !important;
+        color: @btn-second-font-color !important;
+      }
+    }
+
+    &-type-new{
+      .btn-type(@btn-new-border-color, @btn-new-background-color, @btn-new-font-color);
+      &:hover,&:active {
+        background-color: @white;
+        border-color: @strong-border-color;
+        color: @new-text-color
+      }
+      &:disabled {
+        border-color: @btn-new-border-color !important;
+        background-color: @btn-new-background-color !important;
+        color: @btn-new-font-color !important;
+      }
+    }
+
+    &-type-success{
+      .btn-type(@btn-success-border-color, @btn-success-background-color, @btn-success-font-color);
+      &:hover,&:active {
+        background-color: @white;
+        border-color: @strong-border-color;
+        color: @success-text-color
+      }
+      &:disabled {
+        border-color: @btn-success-border-color !important;
+        background-color: @btn-success-background-color !important;
+        color: @btn-success-font-color !important;
+      }
+    }
+
+    &-type-alert{
+      .btn-type(@btn-alert-border-color, @btn-alert-background-color, @btn-alert-font-color);
+      &:hover,&:active {
+        background-color: @white;
+        border-color: @strong-border-color;
+        color: @alert-text-color
+      }
+      &:disabled {
+        border-color: @btn-alert-border-color !important;
+        background-color: @btn-alert-background-color !important;
+        color: @btn-alert-font-color !important;
+      }
+    }
+
+    &-type-error{
+      .btn-type(@btn-alert-border-color, @btn-alert-background-color, @btn-alert-font-color);
+      &:hover,&:active {
+        background-color: @white;
+        border-color: @strong-border-color;
+        color: @alert-text-color
+      }
+      &:disabled {
+        border-color: @btn-alert-border-color !important;
+        background-color: @btn-alert-background-color !important;
+        color: @btn-alert-font-color !important;
+      }
+    }
+
+    &-size-small {
+      .btn-size(@btn-small-height, @btn-small-font-size, @btn-small-padding-vertical, @btn-small-padding-horizontal, @btn-small-min-width);
+    }
+
+    &-size-middle {
+      .btn-size(@btn-middle-height, @btn-middle-font-size, @btn-middle-padding-vertical, @btn-middle-padding-horizontal, @btn-middle-min-width);
+    }
+
+    &-size-big {
+      .btn-size(@btn-large-height, @btn-large-font-size, @btn-large-padding-vertical, @btn-large-padding-horizontal, @btn-large-min-width);
+    }
+
+    &-shape-default{
+
+    }
+
+    &-shape-ellipse{
+      border-radius: @btn-small-height;
+    }
+
+    &-shape-circular{
+      border-radius: 50%;
+      min-width: auto;
+    }
+
+    &-disabled{
+
+    }
+    &-loading{
+      cursor: default;
+    }
+}

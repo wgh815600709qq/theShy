@@ -7,6 +7,8 @@
     "new": "node tools/addComponent.tool.js",
     "rm": "node tools/removeComponent.tool.js",
     "compile": "gulp compile",
+    "merge": "gulp merge",
+    "build": "gulp build",
     "compile-less": "gulp compile-less",
     "compile-ts": "gulp compile-typescript",
     "test": "npm run test"
