@@ -7,7 +7,9 @@ const path = require('path');
 const fs = require('fs');
 const tsConfig = require('./ts.config.json');
 const { getFirstLevelSonDirs } = require('./tools/fs.tool');
+const webpack = require('webpack');
 const tsDefaultReporter = ts.reporter.defaultReporter();
+const webpackConfig = require('./build/webpack.config');
 
 const libDir = path.join(__dirname, './lib');
 const esDir = path.join(__dirname, './es');
@@ -17,8 +19,7 @@ function compileLess(isModule) {
         .src(['components/**/*.less'])
         .pipe(less())
         .pipe(cssmin())
-        .pipe(gulp.dest((isModule ? libDir : esDir) + `/css`))
-    console.log('Compile less finish.')
+        .pipe(gulp.dest((isModule ? libDir : esDir) + `/css`));
 }
 
 
@@ -26,7 +27,9 @@ function compileTs(isModule) {
     let error = 0;
     const source = [
         'components/**/*.tsx',
-        'components/**/*.ts'
+        'components/**/*.ts',
+        'config/*.ts',
+        'utils/*.ts',
     ]
     const tsResult = gulp
         .src(source)
@@ -43,28 +46,50 @@ function compileTs(isModule) {
         if (error && !argv['ignore-error']) {
             process.exit(1)
         }
-     }
+    }
     
     tsResult.on('finish', check)
     tsResult.on('end', check)
     return tsResult.js.pipe(gulp.dest(isModule ? libDir : esDir + '/components'))
 }
 
+function mergeCss(cssPath) {
+    const dirs = getFirstLevelSonDirs(cssPath)
+    let allCssContent = '';
+    dirs.forEach(dir => {
+        allCssContent += `@import './css/${dir}/style/index.css';\n`
+    })
+    fs.writeFileSync(path.join(__dirname, 'es', 'ts.less'), allCssContent)
+}
+
+function mergeJs(jsPath) {
+    const dirs = getFirstLevelSonDirs(jsPath)
+    let allJsContent = '';
+    dirs.forEach(dir => {
+        allJsContent += `import ${dir} from './components/${dir}/index.js';\n`
+    })
+    allJsContent += `import './ts.less';\n`
+    allJsContent += `export {\n  ${dirs.join(',\n  ')} \n}`
+    fs.writeFileSync(path.join(__dirname, 'es', 'ts.js'), allJsContent)
+}
+
 gulp.task('compile-clean', (done) => {
     rimraf.sync(libDir);
     rimraf.sync(esDir);
-    done()
+    done();
 })
 
 gulp.task('compile-less', (done) => {
-    compileLess()
+    compileLess();
+    // console.log('Compile less finish.')
     done()
 })
 
 
 gulp.task('compile-typescript', (done) => {
-    compileTs();
-    done();
+    compileTs().on('finish', done);
+    // console.log('Compile js finish.')
+    // done();
 })
 
 /**
@@ -85,24 +110,41 @@ gulp.task('merge-js', (done) => {
     done();
 })
 
-function mergeCss(cssPath) {
-    const dirs = getFirstLevelSonDirs(cssPath)
-    let allCssContent = '';
-    dirs.forEach(dir => {
-        allCssContent += `@import './css/${dir}/style/index.css';\n`
+gulp.task('webpack-build', (done) => {
+    webpack(webpackConfig, (err, stats) => {
+        if (err) {
+          console.error(err.stack || err)
+          if (err.details) {
+            console.error(err.details)
+          }
+          return
+        }
+    
+        const info = stats.toJson()
+    
+        if (stats.hasErrors()) {
+          console.error(info.errors)
+        }
+    
+        if (stats.hasWarnings()) {
+          console.warn(info.warnings)
+        }
+    
+        const buildInfo = stats.toString({
+          colors: true,
+          children: true,
+          chunks: false,
+          modules: false,
+          chunkModules: false,
+          hash: false,
+          version: false
+        })
+    
+        console.log(buildInfo);
+        done()
     })
-    fs.writeFileSync(path.join(__dirname, 'es', 'ts.less'), allCssContent)
-}
+})
 
-function mergeJs(jsPath) {
-    const dirs = getFirstLevelSonDirs(jsPath)
-    let allJsContent = '';
-    dirs.forEach(dir => {
-        allJsContent += `import ${dir} from './components/${dir}/index.js';\n`
-    })
-    allJsContent += `export {\n  ${dirs.join(',\n  ')} \n}`
-    fs.writeFileSync(path.join(__dirname, 'es', 'ts.js'), allJsContent)
-}
 gulp.task('compile', gulp.series(['compile-clean', 'compile-less', 'compile-typescript']));
-gulp.task('merge',gulp.series(['merge-css', 'merge-js']))
-gulp.task('build', gulp.series(['compile', 'merge']))
+gulp.task('merge',gulp.series(['merge-css', 'merge-js']));
+gulp.task('build', gulp.series(['compile', 'merge', 'webpack-build']));
