@@ -2,7 +2,7 @@
 import React, { FunctionComponentElement } from 'react';
 import classNames from 'classnames';
 import { Size, Shape, Type } from './button.config';
-import { getComponentProps, getCompPrefix, getFontClass } from '../../utils/component.utils';
+import { getComponentProps, getCompPrefix, getFontClass } from '../_utils/component.utils';
 export interface ButtonProps {
     type?: Type,
     size?: Size,

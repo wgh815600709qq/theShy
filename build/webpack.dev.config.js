@@ -4,7 +4,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 module.exports = {
     devtool: 'source-map',
     mode: 'development',
-    entry: path.resolve(__dirname, '../es/ts.js'),
+    entry: path.resolve(__dirname, './Router.js'),
     output: {
         path: path.resolve(__dirname, '../dist/'),
         filename: 'ts.js',
