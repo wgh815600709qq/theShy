@@ -9,17 +9,17 @@ const componentPath = path.resolve(__dirname, '../components');
 const createRouterFile = () => {
     // Below `/build` directory, we will append the dymanic router file before building dev enviroment.
     const result = getRoute();
-    const dynamicImport = result.map(it => `import ${it} from '../components/${it}'`).join('\n');
+    const dynamicImport = result.map(it => `import ${it} from '../es/components/${it}'`).join('\n');
     const routes = result.map(it => `\t\t<Route path="/${it}" component={${it}}/>`).join('\n');
     let content = '';
-    content += `import { Router, Route, hashHistory } from 'react-router';\n`;
+    content += `import { Route, BrowserRouter as Router } from 'react-router-dom';\n`;
     content += `import ReactDOM from 'react-dom'\n`;
     content += dynamicImport;
     content += 
 `
 ReactDOM.render(
     (
-    <Router history={hashHistory}>
+    <Router>
 ${routes}
     </Router>
     ), document.getElementById('app')

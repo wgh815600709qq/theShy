@@ -42,7 +42,7 @@ const getDirInfo = (dirPath) => {
 const getFirstLevelSonDirs = (dirPath) => {
     const dirInfo = getDirInfo(dirPath);
     const firstLevelSonDirs = dirInfo.filter(item => 
-        item.index === 0 && item.type === 'directory'
+        item.index === 0 && item.type === 'directory' && !item.name.startsWith('_')
     ).map(it => it.name)
     return firstLevelSonDirs
 }

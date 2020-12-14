@@ -1,5 +1,6 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const autoprefixer = require('autoprefixer');
 
 module.exports = {
     devtool: 'source-map',
@@ -12,10 +13,10 @@ module.exports = {
     },
     externals: {
         react: { // 脱离打包到bundle
-          root: 'React',
-          commonjs2: 'react',
-          commonjs: 'react',
-          amd: 'react',
+            root: 'React',
+            commonjs2: 'react',
+            commonjs: 'react',
+            amd: 'react',
         }
     },
     module: {
@@ -30,20 +31,27 @@ module.exports = {
                 use: [
                     MiniCssExtractPlugin.loader,
                     {
-                      loader: 'css-loader',
-                      options: {
-                        sourceMap: false
-                      }
+                        loader: 'css-loader',
+                        options: {
+                            sourceMap: false
+                        }
                     },
-                    'postcss-loader',
                     {
-                      loader: 'less-loader',
-                      options: {
-                        lessOptions: {
-                            javascriptEnabled: true
-                        },
-                        sourceMap: true
-                      }
+                        loader: 'less-loader',
+                        options: {
+                            lessOptions: {
+                                javascriptEnabled: true
+                            },
+                            sourceMap: true
+                        }
+                    },
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            postcssOptions: {
+                                plugins: [autoprefixer()]
+                            }
+                        }
                     }
                 ]
             }

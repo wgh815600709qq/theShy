@@ -11,7 +11,7 @@ const { createRouterFile } = require('../tools/dynamicRoute.tool');
 // 动态路由
 createRouterFile();
 // 端口
-const port = 8081
+const port = 8089
 
 const devMiddleware = require('webpack-dev-middleware')(compiler, {
   publicPath: webpackConfig.output.publicPath
